@@ -1,0 +1,130 @@
+#root {
+    -fx-background-color: #e7eafd;
+}
+
+Label {
+    -fx-text-fill: #22243d;
+    -fx-font-weight: 600;
+}
+
+.titleText {
+    -fx-font-size: 28;
+    -fx-text-fill: #34364b;
+}
+
+#buttonMain {
+    -fx-background-color: #34364b;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.backContainer {
+    -fx-background-color: #34364b;
+    -fx-fill: #34364b;
+}
+
+Button {
+    -fx-background-color: #34364b;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+Button.chatButton {
+    -fx-background-color: white;
+    -fx-text-fill: #34364b;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
+    -fx-border-color: #34364b;
+    -fx-cursor: hand;
+}
+
+#backContainer {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.gamesLabel {
+    -fx-font-size: 16px;
+    -fx-text-fill: cadetblue;
+}
+
+.gamesLabel:hover {
+    -fx-background-color: gray;
+    -fx-cursor: hand;
+}
+
+#nameText {
+    -fx-text-fill: #102c21;
+}
+
+#connectionStatus {
+    -fx-text-fill: #102c21;
+}
+
+#historicLabel {
+    -fx-text-fill: #194431;
+    -fx-underline: true;
+}
+
+Pane.chatsContainer {
+    -fx-cursor: hand;
+    -fx-background-color: #194431;
+    -fx-background-radius: 10px;
+    -fx-fill: transparent;
+    -fx-border-radius: 10px;
+    -fx-padding: 5px 5px 5px 5px;
+    -fx-start-margin: 10px;
+    -fx-text-fill: white;
+}
+
+Pane.chatsContainer Label {
+    -fx-text-fill: white;
+}
+
+Label.namePlayerLabel {
+    -fx-font-weight: bold;
+}
+
+Label.black {
+    -fx-text-fill: black;
+}
+
+Label.gray {
+    -fx-text-fill: gray;
+}
+
+Label.brown {
+    -fx-text-fill: brown;
+}
+
+Label.red {
+    -fx-text-fill: red;
+}
+
+Label.yellow {
+    -fx-text-fill: yellow;
+}
+
+Label.cyan {
+    -fx-text-fill: cyan;
+}
+
+Label.violet {
+    -fx-text-fill: violet;
+}
+
+Label.silver {
+    -fx-text-fill: silver;
+}
+
+Label.tomato {
+    -fx-text-fill: tomato;
+}
+
+VBox.message {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-fill: transparent;
+    -fx-border-radius: 10px;
+    -fx-padding: 5px 5px 5px 5px;
+}
