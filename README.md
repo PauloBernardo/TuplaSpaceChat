@@ -1,5 +1,4 @@
-# SensorMOM
-Simple MOM Example Using Java - JavaFX
--> Integration with paulobernardo/ClientMOM
+# TupleSpaceChat
+Simple Chat Example Using JavaSpace - JavaFX
 
-Motivation: Creating a sensor simulator and share information with clients using  MOM.
+Motivation: Creating a chat with multiple clients using tuple space.
