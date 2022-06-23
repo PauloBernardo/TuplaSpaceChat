@@ -9,6 +9,8 @@ module com.example.tuplespacechat {
     requires java.rmi;
     requires jini.core;
     requires jini.ext;
+    requires activemq.client;
+    requires javax.jms;
 
     opens com.example.tuplespacechat to javafx.fxml;
     exports com.example.tuplespacechat;

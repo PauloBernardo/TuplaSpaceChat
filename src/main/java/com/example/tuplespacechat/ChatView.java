@@ -362,7 +362,7 @@ public class ChatView extends ResizableView {
 
     public void chatMessagePrivateSend() {
         try {
-            ChatManager.sendPrivateMessage(messagePrivateField.getText(), this.participantPrivate, null);
+            ChatManager.sendPrivateMessage(messagePrivateField.getText(), this.participantPrivate);
             messagePrivateField.clear();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -1,11 +1,7 @@
 package com.example.tuplespacechat;
 
-import com.example.tuplespacechat.Templates.Chats.ChatCount;
-import com.example.tuplespacechat.Templates.Chats.ChatTemplate;
+import com.example.tuplespacechat.Templates.Chats.*;
 import com.example.tuplespacechat.Templates.Clients.ClientCount;
-import com.example.tuplespacechat.Templates.Chats.PChatCreated;
-import com.example.tuplespacechat.Templates.Chats.PChatTemplate;
-import com.example.tuplespacechat.Templates.Chats.PChatToken;
 import com.example.tuplespacechat.Templates.TOPIC;
 import com.example.tuplespacechat.Templates.Token;
 import com.example.tuplespacechat.Templates.TopicsCreated;
@@ -210,31 +206,12 @@ public class ChatManager {
 
         JavaSpace space = context.getSpace();
 
-        Token token = new Token();
-        token.topic = TOPIC.CHAT_TOPIC;
-        Token response = (Token) space.take(token, null, TIMEOUTS.CHECK.getValue());
-        if (response != null) {
-            try {
-                ChatTemplate chatTemplate = new ChatTemplate();
-                chatTemplate.chatName = context.getActualChat().getName();
-
-                ChatTemplate chatT = (ChatTemplate) space.take(chatTemplate, null, TIMEOUTS.QUICK_CHECK.getValue());
-                if (chatT != null) {
-                    Chat chat = chatT.chat;
-                    chat.getMessages().add(new ChatMessage(Context.clientID, message, System.currentTimeMillis()));
-                    space.write(chatT, null, TIMEOUTS.PERMANENT.getValue());
-                    space.write(response, null, TIMEOUTS.PERMANENT.getValue());
-                } else {
-                    throw new Exception("Chat doesn't exist!");
-                }
-            } catch (Exception e) {
-                space.write(response, null, TIMEOUTS.PERMANENT.getValue());
-                throw new Exception("Chat doesn't exist!");
-            }
-        } else {
-            space.write(token, null, TIMEOUTS.PERMANENT.getValue());
-            throw new Exception("NÃO HÁ TOKEN DO TÓPICO DE CHAT!");
-        }
+        ChatMessageTemplate chatMessageTemplate = new ChatMessageTemplate();
+        chatMessageTemplate.client = Context.clientID;
+        chatMessageTemplate.chatName = context.getActualChat().getName();
+        chatMessageTemplate.message = message;
+        chatMessageTemplate.type = TOPIC.CHAT_TOPIC;
+        space.write(chatMessageTemplate, null, TIMEOUTS.PERMANENT.getValue());
     }
 
     static ArrayList<Chat> checkAndGetAllChats(boolean first) throws Exception {
@@ -303,7 +280,7 @@ public class ChatManager {
     }
 
 
-    static void sendPrivateMessage(String message, String client, String sender) throws Exception {
+    static void sendPrivateMessage(String message, String client) throws Exception {
         if (message == null || message.equals("")) {
             throw new Exception("Messagem é nula!");
         }
@@ -315,42 +292,13 @@ public class ChatManager {
 
         JavaSpace space = context.getSpace();
 
-        PChatCreated template = new PChatCreated();
-        template.chatName = context.getActualChat().getName();
-        template.client = client;
-        PChatCreated privateChatCreated1 = (PChatCreated) space.readIfExists(template, null, TIMEOUTS.QUICK_CHECK.getValue());
-        if (privateChatCreated1 == null) {
-            throw new Exception("Não há chat aberto!");
-        }
-
-        PChatToken token = new PChatToken();
-        token.client = client;
-        PChatToken response = (PChatToken) space.take(token, null, TIMEOUTS.QUICK_CHECK.getValue());
-        if (response != null) {
-            try {
-                PChatTemplate chatTemplate = new PChatTemplate();
-                chatTemplate.chatOriginName = context.getActualChat().getName();
-                chatTemplate.client = client;
-
-                PChatTemplate chatT = (PChatTemplate) space.take(chatTemplate, null, TIMEOUTS.QUICK_CHECK.getValue());
-                if (chatT != null) {
-                    ChatMessage chatMessage = new ChatMessage(Context.clientID, message, System.currentTimeMillis());
-                    chatMessage.setSender(sender);
-                    chatT.chat.getMessages().add(chatMessage);
-                    space.write(chatT, null, TIMEOUTS.PERMANENT.getValue());
-                    space.write(response, null, TIMEOUTS.PERMANENT.getValue());
-                    if (sender == null) ChatManager.sendPrivateMessage(message, Context.clientID, client);
-                } else {
-                    throw new Exception("Chat doesn't exist!");
-                }
-            } catch (Exception e) {
-                space.write(response, null, TIMEOUTS.PERMANENT.getValue());
-                throw e;
-            }
-        } else {
-            space.write(token, null, TIMEOUTS.PERMANENT.getValue());
-            throw new Exception("NÃO HÁ TOKEN DO TÓPICO DE CHAT PRIVADO!");
-        }
+        ChatMessageTemplate chatMessageTemplate = new ChatMessageTemplate();
+        chatMessageTemplate.client = client;
+        chatMessageTemplate.sender = Context.clientID;
+        chatMessageTemplate.chatName = context.getActualChat().getName();
+        chatMessageTemplate.message = message;
+        chatMessageTemplate.type = TOPIC.PRIVATE_CHAT_TOPIC;
+        space.write(chatMessageTemplate, null, TIMEOUTS.PERMANENT.getValue());
     }
 
     static boolean checkAndUpdatePrivateChatFromSpace() throws Exception {
