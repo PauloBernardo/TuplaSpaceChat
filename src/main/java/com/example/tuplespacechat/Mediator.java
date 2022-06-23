@@ -30,7 +30,13 @@ public class Mediator extends UnicastRemoteObject implements MediatorInterface {
     @Override
     public boolean sendMessage(ChatMessageTemplate message) throws Exception {
         TextMessage textMessage = session.createTextMessage();
-        textMessage.setText(message.message);
+        String formatted = "{" +
+                "chatName: \"" + message.chatName + "\"," +
+                "sender: \"" + (message.sender != null ? message.sender : message.client) + "\"," +
+                "receiver: \"" + (message.sender != null ? message.client : "ALL") + "\"," +
+                "message: \"" + message.message + "\"" +
+                "}";
+        textMessage.setText(formatted);
         publisher.send(textMessage);
         return true;
     }
